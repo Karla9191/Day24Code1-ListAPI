@@ -22,7 +22,7 @@ class Todos(db.Model):
     done = db.Column(db.Boolean(), unique=False, nullable=False)
     label = db.Column(db.String(120), unique=False, nullable=False)
 
-    def __repr__(self):
+    def __repr1__(self):
         return '<Todos %r>' % self.username
 
     def serialize(self):
