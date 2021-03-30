@@ -62,6 +62,18 @@ def add_todos():
 
     return jsonify("Se ha completado el registro."), 200
 
+@app.route('/del_todos/<int:tid>', methods=['DELETE'])
+def del_todos(tid):
+
+    todos = Todos.query.get(tid)
+
+    if todos is None:
+        raise APIException('Elemento no encontrado', status_code=404)
+    db.session.delete(todos)
+    db.session.commit()
+
+    return jsonify("Se ha eliminado correctamente."), 200
+
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3000))
