@@ -52,6 +52,16 @@ def get_todos():
     return jsonify(all_todos), 200
 
 
+@app.route('/add_todos', methods=['POST'])
+def add_todos():
+
+    request_body = request.get_json()
+    todos = Favorites(done=request_body["done"], label=request_body["label"])
+    db.session.add(todos)
+    db.session.commit()
+
+    return jsonify("Se ha completado el registro."), 200
+
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3000))
