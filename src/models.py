@@ -31,3 +31,4 @@ class Todos(db.Model):
             "done": self.done,
             "label": self.label,
             # do not serialize the password, its a security breach
+        }
