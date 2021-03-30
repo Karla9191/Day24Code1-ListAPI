@@ -60,6 +60,7 @@ def add_todos():
     db.session.add(todos)
     db.session.commit()
 
+
     return jsonify("Se ha completado el registro."), 200
 
 @app.route('/del_todos/<int:tid>', methods=['DELETE'])
