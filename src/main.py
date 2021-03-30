@@ -40,14 +40,17 @@ def handle_hello():
     return jsonify(response_body), 200
 
 #Ruta para Todos del proyeto List
-@app.route('/Todos', methods=['GET'])
-def msg_todos():
+@app.route('/get_todos', methods=['GET'])
+def get_todos():
 
-    response_body = {
-        "msg": "Hello, this is your GET /user response "
-    }
+    # get all the people
+    query = Todos.query.all()
 
-    return jsonify(response_body), 200
+    # map the results and your list of people  inside of the all_people variable
+    all_todos = list(map(lambda x: x.serialize(), query))
+
+    return jsonify(all_todos), 200
+
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
