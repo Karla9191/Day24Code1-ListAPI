@@ -75,6 +75,57 @@ def del_todos(tid):
 
     return jsonify("Se ha eliminado correctamente."), 200
 
+#Get - Post - Put - Delete
+
+@app.route('/get_listado', methods=['GET'])
+def get_listado():
+
+    # get all the people
+    query = Todos.query.all()
+
+    # map the results and your list of people  inside of the all_people variable
+    all_listados = list(map(lambda x: x.serialize(), query))
+
+    return jsonify(all_listados), 200
+
+@app.route('/add_listado', methods=['POST'])
+def add_listado():
+
+    request_body = request.get_json()
+    listado = Todos(done=request_body["done"],id=request_body["id"],label=request_body["label"])
+    db.session.add(listado)
+    db.session.commit()
+
+    return jsonify("Favorito agregado de forma correcta."), 200
+
+@app.route('/upd_listado/<int:fid>', methods=['PUT'])
+def upd_listado(fid):
+
+    listado = Todos.query.get(fid)
+    if listado is None:
+        raise APIException('Favorite not found', status_code=404)
+
+    request_body = request.get_json()
+
+    if "label" in request_body:
+        listado.label = request_body["label"]
+
+    db.session.commit()
+    return jsonify("Favorito modificado de forma correcta."), 200
+
+@app.route('/del_listado/<int:fid>', methods=['DELETE'])
+def del_listado(fid):
+
+    listado = Todos.query.get(fid)
+
+    if listado is None:
+        raise APIException('Favorite not found', status_code=404)
+    db.session.delete(listado)
+    db.session.commit()
+
+    return jsonify("Favorito eliminado de forma correcta."), 200
+
+
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3000))
