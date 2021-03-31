@@ -96,14 +96,14 @@ def add_listado():
     db.session.add(listado)
     db.session.commit()
 
-    return jsonify("Favorito agregado de forma correcta."), 200
+    return jsonify("Se ha agregado correctamente"), 200
 
 @app.route('/upd_listado/<int:fid>', methods=['PUT'])
 def upd_listado(fid):
 
     listado = Todos.query.get(fid)
     if listado is None:
-        raise APIException('Favorite not found', status_code=404)
+        raise APIException('No encontrado', status_code=404)
 
     request_body = request.get_json()
 
@@ -111,7 +111,7 @@ def upd_listado(fid):
         listado.label = request_body["label"]
 
     db.session.commit()
-    return jsonify("Favorito modificado de forma correcta."), 200
+    return jsonify("Modificado correctamente"), 200
 
 @app.route('/del_listado/<int:fid>', methods=['DELETE'])
 def del_listado(fid):
@@ -119,11 +119,11 @@ def del_listado(fid):
     listado = Todos.query.get(fid)
 
     if listado is None:
-        raise APIException('Favorite not found', status_code=404)
+        raise APIException('No encontrado', status_code=404)
     db.session.delete(listado)
     db.session.commit()
 
-    return jsonify("Favorito eliminado de forma correcta."), 200
+    return jsonify("Eliminado correctamente"), 200
 
 
 # this only runs if `$ python src/main.py` is executed
