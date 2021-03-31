@@ -51,6 +51,18 @@ def get_todos():
 
     return jsonify(all_todos), 200
 
+#post
+
+@app.route('/add_todos', methods=['POST'])
+def add_todos():
+
+    request_body = request.get_json()
+    todos = Todos(label=request_body["label"])
+    db.session.add(todos)
+    db.session.commit()
+
+    return jsonify("Se ha agregado correctamente"), 200
+
 
 
 
