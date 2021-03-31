@@ -40,7 +40,7 @@ def handle_hello():
     return jsonify(response_body), 200
 
 #Ruta para Todos del proyeto List
-@app.route('/get_todos', methods=['GET'])
+@app.route('/todos', methods=['GET'])
 def get_todos():
 
     # get all the people
@@ -53,21 +53,7 @@ def get_todos():
 
 
 
-
-#Get - Post - Put - Delete
-
-@app.route('/get_todos', methods=['GET'])
-def get_listado():
-
-    # get all the people
-    query = Todos.query.all()
-
-    # map the results and your list of people  inside of the all_people variable
-    all_listados = list(map(lambda x: x.serialize(), query))
-
-    return jsonify(all_listados), 200
-
-@app.route('/add_todos', methods=['POST'])
+@app.route('/todos', methods=['POST'])
 def add_listado():
 
     request_body = request.get_json()
@@ -77,10 +63,10 @@ def add_listado():
 
     return jsonify("Se ha agregado correctamente"), 200
 
-@app.route('/upd_todos/<int:fid>', methods=['PUT'])
-def upd_listado(fid):
+@app.route('/todos/<int:id>', methods=['PUT'])
+def upd_listado(id):
 
-    listado = Todos.query.get(fid)
+    listado = Todos.query.get(id)
     if listado is None:
         raise APIException('No encontrado', status_code=404)
 
@@ -92,10 +78,10 @@ def upd_listado(fid):
     db.session.commit()
     return jsonify("Modificado correctamente"), 200
 
-@app.route('/del_todos/<int:fid>', methods=['DELETE'])
+@app.route('/todos/<int:id>', methods=['DELETE'])
 def del_listado(fid):
 
-    listado = Todos.query.get(fid)
+    listado = Todos.query.get(id)
 
     if listado is None:
         raise APIException('No encontrado', status_code=404)
