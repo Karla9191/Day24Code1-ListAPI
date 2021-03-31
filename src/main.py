@@ -56,7 +56,7 @@ def get_todos():
 def add_todos():
 
     request_body = request.get_json()
-    todos = Todos(done=request_body["done"], label=request_body["label"])
+    todos = Todos(id=request_body["id"] ,done=request_body["done"], label=request_body["label"])
     db.session.add(todos)
     db.session.commit()
 
