@@ -53,43 +53,6 @@ def get_todos():
 
 
 
-@app.route('/todos', methods=['POST'])
-def add_listado():
-
-    request_body = request.get_json()
-    listado = Todos(done=request_body["done"],id=request_body["id"],label=request_body["label"])
-    db.session.add(listado)
-    db.session.commit()
-
-    return jsonify("Se ha agregado correctamente"), 200
-
-@app.route('/todos/<int:id>', methods=['PUT'])
-def upd_listado(id):
-
-    listado = Todos.query.get(id)
-    if listado is None:
-        raise APIException('No encontrado', status_code=404)
-
-    request_body = request.get_json()
-
-    if "label" in request_body:
-        listado.label = request_body["label"]
-
-    db.session.commit()
-    return jsonify("Modificado correctamente"), 200
-
-@app.route('/todos/<int:id>', methods=['DELETE'])
-def del_listado(fid):
-
-    listado = Todos.query.get(id)
-
-    if listado is None:
-        raise APIException('No encontrado', status_code=404)
-    db.session.delete(listado)
-    db.session.commit()
-
-    return jsonify("Eliminado correctamente"), 200
-
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
