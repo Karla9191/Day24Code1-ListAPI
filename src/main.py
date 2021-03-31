@@ -52,32 +52,11 @@ def get_todos():
     return jsonify(all_todos), 200
 
 
-@app.route('/add_todos', methods=['POST'])
-def add_todos():
 
-    request_body = request.get_json()
-    todos = Todos(id=request_body["id"] ,done=request_body["done"], label=request_body["label"])
-    db.session.add(todos)
-    db.session.commit()
-
-
-    return jsonify("Se ha completado el registro."), 200
-
-@app.route('/del_todos/<int:tid>', methods=['DELETE'])
-def del_todos(tid):
-
-    todos = Todos.query.get(tid)
-
-    if todos is None:
-        raise APIException('Elemento no encontrado', status_code=404)
-    db.session.delete(todos)
-    db.session.commit()
-
-    return jsonify("Se ha eliminado correctamente."), 200
 
 #Get - Post - Put - Delete
 
-@app.route('/get_listado', methods=['GET'])
+@app.route('/get_todos', methods=['GET'])
 def get_listado():
 
     # get all the people
@@ -88,7 +67,7 @@ def get_listado():
 
     return jsonify(all_listados), 200
 
-@app.route('/add_listado', methods=['POST'])
+@app.route('/add_todos', methods=['POST'])
 def add_listado():
 
     request_body = request.get_json()
@@ -98,7 +77,7 @@ def add_listado():
 
     return jsonify("Se ha agregado correctamente"), 200
 
-@app.route('/upd_listado/<int:fid>', methods=['PUT'])
+@app.route('/upd_todos/<int:fid>', methods=['PUT'])
 def upd_listado(fid):
 
     listado = Todos.query.get(fid)
@@ -113,7 +92,7 @@ def upd_listado(fid):
     db.session.commit()
     return jsonify("Modificado correctamente"), 200
 
-@app.route('/del_listado/<int:fid>', methods=['DELETE'])
+@app.route('/del_todos/<int:fid>', methods=['DELETE'])
 def del_listado(fid):
 
     listado = Todos.query.get(fid)
