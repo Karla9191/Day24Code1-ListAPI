@@ -39,7 +39,8 @@ def handle_hello():
 
     return jsonify(response_body), 200
 
-#Ruta para Todos del proyeto List
+#***************Inicio del Get ***************#
+
 @app.route('/todos', methods=['GET'])
 def get_todos():
 
@@ -51,20 +52,34 @@ def get_todos():
 
     return jsonify(all_todos), 200
 
-#post
+#***************Fin del Get ***************#
 
+#***************Inicio del Post ***************#
 @app.route('/add_todos', methods=['POST'])
 def add_todos():
 
     request_body = request.get_json()
-    todos = Todos(label=request_body["label"])
+    todos = Todos(done=request_body["done"],label=request_body["label"])
     db.session.add(todos)
     db.session.commit()
 
     return jsonify("Se ha agregado correctamente"), 200
 
+#***************Fin del Post ***************#
 
+#***************Inicio del Delete ***************#
+@app.route('/del_todos/<int:fid>', methods=['DELETE'])
+def del_todos(fid):
 
+    dtodo = Todos.query.get(fid)
+
+    if dtodo is None:
+        raise APIException('Todos not found', status_code=404)
+    db.session.delete(dtodo)
+    db.session.commit()
+
+    return jsonify("Favorito eliminado de forma correcta."), 200
+#***************Fin del Delete ***************#
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':

@@ -23,12 +23,12 @@ class Todos(db.Model):
     label = db.Column(db.String(120), unique=False, nullable=False)
 
     def __repr__(self):
-        return '<Todos %r>' % self.username
+        return '<Todos %r>' % self.todosid
 
     def serialize(self):
         return {
-            "done": self.done,
             "id": self.id,
+            "done": self.done,
             "label": self.label,
             # do not serialize the password, its a security breach
         }
